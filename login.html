@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OVINEX | Inicio de sesión</title>
+
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body class="pagina-login">
+
+    <main class="login-contenedor">
+
+        <section class="login-panel">
+
+            <div class="logo-login">
+                <div class="logo-oveja">🐑</div>
+
+                <div>
+                    <h1>OVINEX</h1>
+                    <p>Sistema Integral de Gestión Ovina</p>
+                </div>
+            </div>
+
+            <div class="login-titulo">
+                <span>ACCESO AL SISTEMA</span>
+                <h2>Bienvenido</h2>
+                <p>Ingrese sus credenciales para continuar.</p>
+            </div>
+
+            <form id="formLogin">
+
+                <div class="campo">
+                    <label for="usuario">Usuario</label>
+
+                    <input
+                        type="text"
+                        id="usuario"
+                        placeholder="Ingrese su usuario"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+
+                    <label for="contrasena">Contraseña</label>
+
+                    <div class="campo-password">
+
+                        <input
+                            type="password"
+                            id="contrasena"
+                            placeholder="Ingrese su contraseña"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            id="mostrarContrasena"
+                            class="boton-mostrar"
+                        >
+                            👁️
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="mensajeError"
+                    class="mensaje-login"
+                ></div>
+
+                <button
+                    type="submit"
+                    class="boton-principal boton-login"
+                >
+                    Iniciar sesión
+                </button>
+
+            </form>
+
+            <div class="opciones-login">
+
+                <button
+                    type="button"
+                    id="btnCrearUsuario"
+                    class="enlace-login"
+                >
+                    Crear usuario
+                </button>
+
+                <button
+                    type="button"
+                    id="btnOlvido"
+                    class="enlace-login"
+                >
+                    ¿Olvidó su contraseña?
+                </button>
+
+            </div>
+
+            <div class="pie-login">
+                OVINEX © 2026 · Gestión de producción ovina
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==================================================
+         MODAL CREAR USUARIO
+    ================================================== -->
+
+    <div
+        class="modal"
+        id="modalCrearUsuario"
+    >
+
+        <div class="modal-contenido">
+
+            <button
+                type="button"
+                class="cerrar-modal"
+                data-cerrar="modalCrearUsuario"
+            >
+                ×
+            </button>
+
+            <span class="etiqueta-seccion">
+                NUEVO USUARIO
+            </span>
+
+            <h2>Crear usuario</h2>
+
+            <p class="texto-modal">
+                Los nuevos usuarios pueden registrarse con
+                rango de peón.
+            </p>
+
+            <form id="formCrearUsuario">
+
+                <div class="campo">
+
+                    <label for="nuevoUsuario">
+                        Nombre de usuario
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nuevoUsuario"
+                        required
+                    >
+
+                </div>
+
+                <div class="campo">
+
+                    <label for="nuevaContrasena">
+                        Contraseña
+                    </label>
+
+                    <input
+                        type="password"
+                        id="nuevaContrasena"
+                        required
+                    >
+
+                </div>
+
+                <div class="campo">
+
+                    <label for="rolNuevoUsuario">
+                        Rango
+                    </label>
+
+                    <select id="rolNuevoUsuario">
+
+                        <option value="peon">
+                            Peón
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div
+                    id="mensajeCrearUsuario"
+                    class="mensaje-login"
+                ></div>
+
+                <button
+                    type="submit"
+                    class="boton-principal"
+                >
+                    Crear usuario
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         MODAL RECUPERAR CONTRASEÑA
+    ================================================== -->
+
+    <div
+        class="modal"
+        id="modalOlvido"
+    >
+
+        <div class="modal-contenido">
+
+            <button
+                type="button"
+                class="cerrar-modal"
+                data-cerrar="modalOlvido"
+            >
+                ×
+            </button>
+
+            <span class="etiqueta-seccion">
+                RECUPERACIÓN
+            </span>
+
+            <h2>Recuperar contraseña</h2>
+
+            <p class="texto-modal">
+                Ingrese su usuario para restablecer la contraseña.
+            </p>
+
+            <form id="formRecuperar">
+
+                <div class="campo">
+
+                    <label for="usuarioRecuperar">
+                        Usuario
+                    </label>
+
+                    <input
+                        type="text"
+                        id="usuarioRecuperar"
+                        required
+                    >
+
+                </div>
+
+                <div
+                    id="mensajeRecuperar"
+                    class="mensaje-login"
+                ></div>
+
+                <button
+                    type="submit"
+                    class="boton-principal"
+                >
+                    Restablecer contraseña
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+<script>
+
+/* =====================================================
+   USUARIOS INICIALES
+===================================================== */
+
+function inicializarUsuarios() {
+
+    let usuarios = localStorage.getItem("usuariosOvinex");
+
+    if (!usuarios) {
+
+        usuarios = [
+
+            {
+                usuario: "admin",
+                contrasena: "1234",
+                rol: "admin",
+                activo: true,
+                fechaCreacion: "04/10/2026"
+            },
+
+            {
+                usuario: "peon",
+                contrasena: "1234",
+                rol: "peon",
+                activo: true,
+                fechaCreacion: "04/10/2026"
+            }
+
+        ];
+
+        localStorage.setItem(
+            "usuariosOvinex",
+            JSON.stringify(usuarios)
+        );
+
+    }
+
+}
+
+inicializarUsuarios();
+
+
+/* =====================================================
+   SI YA EXISTE UNA SESIÓN
+===================================================== */
+
+if (
+    sessionStorage.getItem("sesionActiva") === "true"
+) {
+
+    window.location.replace("index.html");
+
+}
+
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const formLogin =
+    document.getElementById("formLogin");
+
+const usuarioInput =
+    document.getElementById("usuario");
+
+const contrasenaInput =
+    document.getElementById("contrasena");
+
+const mensajeError =
+    document.getElementById("mensajeError");
+
+const mostrarContrasena =
+    document.getElementById("mostrarContrasena");
+
+
+/* =====================================================
+   MOSTRAR / OCULTAR CONTRASEÑA
+===================================================== */
+
+mostrarContrasena.addEventListener(
+    "click",
+    function () {
+
+        if (
+            contrasenaInput.type === "password"
+        ) {
+
+            contrasenaInput.type = "text";
+            mostrarContrasena.textContent = "🙈";
+
+        } else {
+
+            contrasenaInput.type = "password";
+            mostrarContrasena.textContent = "👁️";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+formLogin.addEventListener(
+    "submit",
+    function (event) {
+
+        event.preventDefault();
+
+        const usuario =
+            usuarioInput.value.trim();
+
+        const contrasena =
+            contrasenaInput.value;
+
+        let usuarios = [];
+
+        try {
+
+            usuarios =
+                JSON.parse(
+                    localStorage.getItem(
+                        "usuariosOvinex"
+                    )
+                ) || [];
+
+        } catch {
+
+            usuarios = [];
+
+        }
+
+        const encontrado =
+            usuarios.find(
+                item =>
+                    item.usuario === usuario &&
+                    item.contrasena === contrasena
+            );
+
+        if (!encontrado) {
+
+            mensajeError.textContent =
+                "Usuario o contraseña incorrectos.";
+
+            mensajeError.className =
+                "mensaje-login error";
+
+            return;
+
+        }
+
+        if (encontrado.activo === false) {
+
+            mensajeError.textContent =
+                "Este usuario se encuentra desactivado.";
+
+            mensajeError.className =
+                "mensaje-login error";
+
+            return;
+
+        }
+
+
+        /* Guardar sesión */
+
+        sessionStorage.setItem(
+            "sesionActiva",
+            "true"
+        );
+
+        sessionStorage.setItem(
+            "usuarioActual",
+            encontrado.usuario
+        );
+
+        sessionStorage.setItem(
+            "rolActual",
+            encontrado.rol
+        );
+
+
+        window.location.replace("index.html");
+
+    }
+);
+
+
+/* =====================================================
+   CREAR USUARIO
+===================================================== */
+
+const btnCrearUsuario =
+    document.getElementById("btnCrearUsuario");
+
+const modalCrearUsuario =
+    document.getElementById("modalCrearUsuario");
+
+const formCrearUsuario =
+    document.getElementById("formCrearUsuario");
+
+btnCrearUsuario.addEventListener(
+    "click",
+    function () {
+
+        modalCrearUsuario.classList.add("activo");
+
+    }
+);
+
+
+formCrearUsuario.addEventListener(
+    "submit",
+    function (event) {
+
+        event.preventDefault();
+
+        const nombre =
+            document
+                .getElementById("nuevoUsuario")
+                .value
+                .trim();
+
+        const contrasena =
+            document
+                .getElementById("nuevaContrasena")
+                .value;
+
+        const rol =
+            document
+                .getElementById("rolNuevoUsuario")
+                .value;
+
+        const mensaje =
+            document.getElementById(
+                "mensajeCrearUsuario"
+            );
+
+        let usuarios = [];
+
+        try {
+
+            usuarios =
+                JSON.parse(
+                    localStorage.getItem(
+                        "usuariosOvinex"
+                    )
+                ) || [];
+
+        } catch {
+
+            usuarios = [];
+
+        }
+
+
+        if (
+            usuarios.some(
+                item =>
+                    item.usuario.toLowerCase() ===
+                    nombre.toLowerCase()
+            )
+        ) {
+
+            mensaje.textContent =
+                "Ese usuario ya existe.";
+
+            mensaje.className =
+                "mensaje-login error";
+
+            return;
+
+        }
+
+
+        if (nombre.length < 3) {
+
+            mensaje.textContent =
+                "El usuario debe tener al menos 3 caracteres.";
+
+            mensaje.className =
+                "mensaje-login error";
+
+            return;
+
+        }
+
+
+        if (contrasena.length < 4) {
+
+            mensaje.textContent =
+                "La contraseña debe tener al menos 4 caracteres.";
+
+            mensaje.className =
+                "mensaje-login error";
+
+            return;
+
+        }
+
+
+        usuarios.push({
+
+            usuario: nombre,
+            contrasena: contrasena,
+            rol: rol,
+            activo: true,
+            fechaCreacion:
+                new Date().toLocaleDateString("es-CR")
+
+        });
+
+
+        localStorage.setItem(
+            "usuariosOvinex",
+            JSON.stringify(usuarios)
+        );
+
+
+        mensaje.textContent =
+            "Usuario creado correctamente.";
+
+        mensaje.className =
+            "mensaje-login correcto";
+
+
+        formCrearUsuario.reset();
+
+
+        setTimeout(
+            function () {
+
+                modalCrearUsuario.classList.remove(
+                    "activo"
+                );
+
+                mensaje.textContent = "";
+
+            },
+            1200
+        );
+
+    }
+);
+
+
+/* =====================================================
+   RECUPERAR CONTRASEÑA
+===================================================== */
+
+const btnOlvido =
+    document.getElementById("btnOlvido");
+
+const modalOlvido =
+    document.getElementById("modalOlvido");
+
+const formRecuperar =
+    document.getElementById("formRecuperar");
+
+btnOlvido.addEventListener(
+    "click",
+    function () {
+
+        modalOlvido.classList.add("activo");
+
+    }
+);
+
+
+formRecuperar.addEventListener(
+    "submit",
+    function (event) {
+
+        event.preventDefault();
+
+        const nombre =
+            document
+                .getElementById("usuarioRecuperar")
+                .value
+                .trim();
+
+        const mensaje =
+            document.getElementById(
+                "mensajeRecuperar"
+            );
+
+        let usuarios = [];
+
+        try {
+
+            usuarios =
+                JSON.parse(
+                    localStorage.getItem(
+                        "usuariosOvinex"
+                    )
+                ) || [];
+
+        } catch {
+
+            usuarios = [];
+
+        }
+
+        const indice =
+            usuarios.findIndex(
+                item =>
+                    item.usuario.toLowerCase() ===
+                    nombre.toLowerCase()
+            );
+
+
+        if (indice === -1) {
+
+            mensaje.textContent =
+                "No se encontró ese usuario.";
+
+            mensaje.className =
+                "mensaje-login error";
+
+            return;
+
+        }
+
+
+        /* Para el proyecto escolar */
+
+        usuarios[indice].contrasena = "1234";
+
+
+        localStorage.setItem(
+            "usuariosOvinex",
+            JSON.stringify(usuarios)
+        );
+
+
+        mensaje.innerHTML =
+            "Contraseña restablecida.<br>" +
+            "La nueva contraseña es <strong>1234</strong>.";
+
+        mensaje.className =
+            "mensaje-login correcto";
+
+    }
+);
+
+
+/* =====================================================
+   CERRAR MODALES
+===================================================== */
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const boton =
+            event.target.closest(
+                "[data-cerrar]"
+            );
+
+        if (!boton) return;
+
+        const id =
+            boton.dataset.cerrar;
+
+        const modal =
+            document.getElementById(id);
+
+        if (modal) {
+
+            modal.classList.remove(
+                "activo"
+            );
+
+        }
+
+    }
+);
+
+
+/* Cerrar al hacer clic fuera */
+
+document.querySelectorAll(".modal")
+    .forEach(
+        modal => {
+
+            modal.addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        event.target === modal
+                    ) {
+
+                        modal.classList.remove(
+                            "activo"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

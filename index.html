@@ -1,0 +1,3869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>OVINEX | Sistema Ovino</title>
+
+    <link
+        rel="stylesheet"
+        href="estilos.css"
+    >
+
+</head>
+
+<body>
+
+<script>
+
+/* =====================================================
+   PROTECCIÓN DE SESIÓN
+===================================================== */
+
+if (
+    sessionStorage.getItem("sesionActiva") !== "true"
+) {
+
+    window.location.replace("login.html");
+
+}
+
+</script>
+
+
+<div class="app">
+
+
+    <!-- ==================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🐑
+            </div>
+
+            <div>
+                <strong>OVINEX</strong>
+                <span>Gestión Ovina</span>
+            </div>
+
+        </div>
+
+
+        <nav class="menu">
+
+            <span class="menu-titulo">
+                PRINCIPAL
+            </span>
+
+            <button
+                type="button"
+                class="item-menu activo"
+                data-seccion="seccionGeneral"
+            >
+                <span>🏠</span>
+                <span>Información general</span>
+            </button>
+
+
+            <button
+                type="button"
+                class="item-menu"
+                data-seccion="seccionAnimales"
+            >
+                <span>🐑</span>
+                <span>Animales</span>
+            </button>
+
+
+            <button
+                type="button"
+                class="item-menu"
+                data-seccion="seccionRegistro"
+            >
+                <span>➕</span>
+                <span>Registrar animal</span>
+            </button>
+
+
+            <button
+                type="button"
+                class="item-menu"
+                data-seccion="seccionReservas"
+            >
+                <span>📋</span>
+                <span>Reservas</span>
+            </button>
+
+
+            <span class="menu-titulo">
+                ADMINISTRACIÓN
+            </span>
+
+
+            <button
+                type="button"
+                class="item-menu"
+                id="btnPanelAdmin"
+                data-seccion="seccionAdmin"
+            >
+                <span>🛡️</span>
+                <span>Panel de administrador</span>
+            </button>
+
+
+            <button
+                type="button"
+                class="item-menu"
+                id="btnNotificacionesMenu"
+                data-seccion="seccionNotificaciones"
+            >
+                <span>🔔</span>
+                <span>Notificaciones</span>
+
+                <span
+                    id="contadorMenu"
+                    class="contador-menu"
+                >
+                    0
+                </span>
+
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-abajo">
+
+            <div class="mini-info">
+
+                <span>OVINEX</span>
+
+                <p>
+                    Sistema de control
+                    de producción ovina
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="btnCerrarSesion"
+                class="boton-logout"
+            >
+                🚪 Cerrar sesión
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ==================================================
+         CONTENIDO PRINCIPAL
+    ================================================== -->
+
+    <main class="contenido-principal">
+
+
+        <!-- ==================================================
+             HEADER
+        ================================================== -->
+
+        <header class="header">
+
+            <div>
+
+                <span class="etiqueta-header">
+                    SISTEMA DE GESTIÓN
+                </span>
+
+                <h1 id="tituloHeader">
+                    Información general
+                </h1>
+
+            </div>
+
+
+            <div class="usuario-area">
+
+                <button
+                    type="button"
+                    id="btnNotificaciones"
+                    class="boton-notificaciones"
+                >
+
+                    🔔
+
+                    <span
+                        id="contadorNotificaciones"
+                        class="contador-notificaciones"
+                    >
+                        0
+                    </span>
+
+                </button>
+
+
+                <div
+                    class="usuario-avatar"
+                    id="avatarUsuario"
+                >
+                    A
+                </div>
+
+
+                <div class="usuario-datos">
+
+                    <strong id="nombreUsuario">
+                        Administrador
+                    </strong>
+
+                    <span id="rolUsuario">
+                        Administrador
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ==================================================
+             INFORMACIÓN GENERAL
+        ================================================== -->
+
+        <section
+            id="seccionGeneral"
+            class="seccion-contenido activa"
+        >
+
+            <div class="encabezado-seccion">
+
+                <div>
+
+                    <span class="etiqueta-seccion">
+                        RESUMEN
+                    </span>
+
+                    <h2>
+                        Información general
+                    </h2>
+
+                    <p>
+                        Vista general del hato ovino
+                        registrado en OVINEX.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="boton-principal"
+                    data-seccion="seccionRegistro"
+                >
+                    ➕ Registrar animal
+                </button>
+
+            </div>
+
+
+            <!-- Estadísticas -->
+
+            <div class="estadisticas">
+
+                <div class="tarjeta-estadistica">
+
+                    <div class="estadistica-icono">
+                        🐑
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total de animales
+                        </span>
+
+                        <strong id="totalAnimales">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="tarjeta-estadistica">
+
+                    <div class="estadistica-icono">
+                        ❤️
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Animales preñados
+                        </span>
+
+                        <strong id="animalesPrenados">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="tarjeta-estadistica">
+
+                    <div class="estadistica-icono">
+                        📋
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Reservas
+                        </span>
+
+                        <strong id="totalReservas">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Animales generales -->
+
+            <div class="tarjeta-contenido">
+
+                <div class="cabecera-contenido">
+
+                    <div>
+
+                        <span class="etiqueta-seccion">
+                            HATO OVINO
+                        </span>
+
+                        <h2>
+                            Animales registrados
+                        </h2>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="boton-secundario"
+                        data-seccion="seccionAnimales"
+                    >
+                        Ver todos
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="tarjetasGenerales"
+                    class="grid-animales"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             ANIMALES
+        ================================================== -->
+
+        <section
+            id="seccionAnimales"
+            class="seccion-contenido"
+        >
+
+            <div class="encabezado-seccion">
+
+                <div>
+
+                    <span class="etiqueta-seccion">
+                        HATO OVINO
+                    </span>
+
+                    <h2>
+                        Animales
+                    </h2>
+
+                    <p>
+                        Consulta y administra los animales registrados.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="boton-principal"
+                    data-seccion="seccionRegistro"
+                >
+                    ➕ Registrar animal
+                </button>
+
+            </div>
+
+
+            <div class="filtros">
+
+                <div class="campo">
+
+                    <label for="buscarAnimal">
+                        Buscar animal
+                    </label>
+
+                    <input
+                        type="search"
+                        id="buscarAnimal"
+                        placeholder="Número del animal..."
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="filtroEstado">
+                        Estado
+                    </label>
+
+                    <select id="filtroEstado">
+
+                        <option value="">
+                            Todos
+                        </option>
+
+                        <option value="Activo">
+                            Activo
+                        </option>
+
+                        <option value="En tratamiento">
+                            En tratamiento
+                        </option>
+
+                        <option value="Vendido">
+                            Vendido
+                        </option>
+
+                        <option value="Baja">
+                            Baja
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="filtroCelo">
+                        Celo
+                    </label>
+
+                    <select id="filtroCelo">
+
+                        <option value="">
+                            Todos
+                        </option>
+
+                        <option value="Sí">
+                            Sí
+                        </option>
+
+                        <option value="No">
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="contador-resultados">
+
+                <span>
+                    Animales encontrados:
+                </span>
+
+                <strong id="contadorTarjetas">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div
+                id="contenedorTarjetas"
+                class="grid-animales"
+            ></div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             REGISTRO
+        ================================================== -->
+
+        <section
+            id="seccionRegistro"
+            class="seccion-contenido"
+        >
+
+            <div class="encabezado-seccion">
+
+                <div>
+
+                    <span class="etiqueta-seccion">
+                        REGISTRO
+                    </span>
+
+                    <h2>
+                        Registrar animal
+                    </h2>
+
+                    <p>
+                        Complete la información del animal.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="formulario-contenedor">
+
+                <form id="formAnimal">
+
+                    <div class="formulario-grid">
+
+                        <div class="campo">
+
+                            <label for="numeroAnimal">
+                                Número de animal *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="numeroAnimal"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="peso">
+                                Peso (kg) *
+                            </label>
+
+                            <input
+                                type="number"
+                                id="peso"
+                                min="0"
+                                step="0.1"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="fecha">
+                                Fecha *
+                            </label>
+
+                            <input
+                                type="date"
+                                id="fecha"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="hora">
+                                Hora *
+                            </label>
+
+                            <input
+                                type="time"
+                                id="hora"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="nacimiento">
+                                Fecha de nacimiento
+                            </label>
+
+                            <input
+                                type="date"
+                                id="nacimiento"
+                            >
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="vacunas">
+                                Vacunas
+                            </label>
+
+                            <input
+                                type="text"
+                                id="vacunas"
+                                placeholder="Ej. Clostridiosis"
+                            >
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="celo">
+                                Celo
+                            </label>
+
+                            <select id="celo">
+
+                                <option value="No">
+                                    No
+                                </option>
+
+                                <option value="Sí">
+                                    Sí
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="fechaCelo">
+                                Fecha de celo
+                            </label>
+
+                            <input
+                                type="date"
+                                id="fechaCelo"
+                            >
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="macho">
+                                Número del macho
+                            </label>
+
+                            <input
+                                type="text"
+                                id="macho"
+                            >
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="diagnostico">
+                                Fecha de diagnóstico
+                            </label>
+
+                            <input
+                                type="date"
+                                id="diagnostico"
+                            >
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="padre">
+                                Número del padre
+                            </label>
+
+                            <input
+                                type="text"
+                                id="padre"
+                            >
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="madre">
+                                Número de la madre
+                            </label>
+
+                            <input
+                                type="text"
+                                id="madre"
+                            >
+
+                        </div>
+
+
+                        <div class="campo campo-completo">
+
+                            <label for="dieta">
+                                Dieta
+                            </label>
+
+                            <textarea
+                                id="dieta"
+                                rows="3"
+                                placeholder="Describa la alimentación..."
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="estado">
+                                Estado
+                            </label>
+
+                            <select id="estado">
+
+                                <option value="Activo">
+                                    Activo
+                                </option>
+
+                                <option value="En tratamiento">
+                                    En tratamiento
+                                </option>
+
+                                <option value="Vendido">
+                                    Vendido
+                                </option>
+
+                                <option value="Baja">
+                                    Baja
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="formulario-botones">
+
+                        <button
+                            type="reset"
+                            class="boton-secundario"
+                        >
+                            Limpiar
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="boton-principal"
+                        >
+                            💾 Guardar animal
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             RESERVAS
+        ================================================== -->
+
+        <section
+            id="seccionReservas"
+            class="seccion-contenido"
+        >
+
+            <div class="encabezado-seccion">
+
+                <div>
+
+                    <span class="etiqueta-seccion">
+                        REGISTRO
+                    </span>
+
+                    <h2>
+                        Reservas
+                    </h2>
+
+                    <p>
+                        Reservas y movimientos registrados.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="tarjeta-contenido">
+
+                <div class="tabla-responsive">
+
+                    <table class="tabla">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Animal
+                                </th>
+
+                                <th>
+                                    Fecha
+                                </th>
+
+                                <th>
+                                    Tipo
+                                </th>
+
+                                <th>
+                                    Estado
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="tablaReservas">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             PANEL ADMINISTRADOR
+        ================================================== -->
+
+        <section
+            id="seccionAdmin"
+            class="seccion-contenido"
+        >
+
+            <div class="encabezado-seccion">
+
+                <div>
+
+                    <span class="etiqueta-seccion">
+                        ADMINISTRACIÓN
+                    </span>
+
+                    <h2>
+                        Panel de administrador
+                    </h2>
+
+                    <p>
+                        Gestión y consulta de los usuarios
+                        con rango de peón.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="btnActualizarUsuarios"
+                    class="boton-secundario"
+                >
+                    🔄 Actualizar
+                </button>
+
+            </div>
+
+
+            <div class="estadisticas-admin">
+
+                <div class="tarjeta-admin">
+
+                    <div class="icono-admin">
+                        👥
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total de peones
+                        </span>
+
+                        <strong id="totalPeones">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="tarjeta-admin">
+
+                    <div class="icono-admin">
+                        🟢
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Usuarios activos
+                        </span>
+
+                        <strong id="peonesActivos">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="tarjeta-admin">
+
+                    <div class="icono-admin">
+                        📋
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Actividades
+                        </span>
+
+                        <strong id="actividadesPeones">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="tarjeta-contenido">
+
+                <div class="cabecera-tabla-admin">
+
+                    <div>
+
+                        <span class="etiqueta-seccion">
+                            USUARIOS
+                        </span>
+
+                        <h2>
+                            Usuarios con rango peón
+                        </h2>
+
+                        <p>
+                            Información de los usuarios registrados.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="tabla-responsive">
+
+                    <table class="tabla-admin">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Usuario
+                                </th>
+
+                                <th>
+                                    Rango
+                                </th>
+
+                                <th>
+                                    Estado
+                                </th>
+
+                                <th>
+                                    Actividades
+                                </th>
+
+                                <th>
+                                    Acciones
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="tablaUsuariosPeones">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             NOTIFICACIONES
+        ================================================== -->
+
+        <section
+            id="seccionNotificaciones"
+            class="seccion-contenido"
+        >
+
+            <div class="encabezado-seccion">
+
+                <div>
+
+                    <span class="etiqueta-seccion">
+                        ACTIVIDAD
+                    </span>
+
+                    <h2>
+                        Notificaciones
+                    </h2>
+
+                    <p>
+                        Actividades realizadas por los usuarios peón.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="btnMarcarNotificaciones"
+                    class="boton-secundario"
+                >
+                    ✓ Marcar como leídas
+                </button>
+
+            </div>
+
+
+            <div class="tarjeta-contenido">
+
+                <div
+                    id="listaNotificaciones"
+                    class="lista-notificaciones"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+
+<!-- ======================================================
+     MODAL INFORMACIÓN ANIMAL
+====================================================== -->
+
+<div
+    class="modal"
+    id="modalAnimal"
+>
+
+    <div class="modal-contenido modal-animal">
+
+        <button
+            type="button"
+            class="cerrar-modal"
+            id="cerrarModalAnimal"
+        >
+            ×
+        </button>
+
+        <div id="detalleAnimal"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   DATOS
+===================================================== */
+
+let animales =
+    JSON.parse(
+        localStorage.getItem("animalesOvinos") || "[]"
+    );
+
+let pesajes =
+    JSON.parse(
+        localStorage.getItem("pesajesOvinos") || "[]"
+    );
+
+let tratamientos =
+    JSON.parse(
+        localStorage.getItem("tratamientosOvinos") || "[]"
+    );
+
+let reproducciones =
+    JSON.parse(
+        localStorage.getItem("reproduccionesOvinas") || "[]"
+    );
+
+
+/* =====================================================
+   SESIÓN
+===================================================== */
+
+const usuarioActual =
+    sessionStorage.getItem("usuarioActual") || "admin";
+
+const rolActual =
+    sessionStorage.getItem("rolActual") || "admin";
+
+
+/* =====================================================
+   UTILIDADES
+===================================================== */
+
+function escapeHTML(valor) {
+
+    return String(valor ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function guardarAnimales() {
+
+    localStorage.setItem(
+        "animalesOvinos",
+        JSON.stringify(animales)
+    );
+
+}
+
+
+/* =====================================================
+   NOTIFICACIONES DE ACTIVIDAD
+===================================================== */
+
+function registrarActividad(
+    accion,
+    detalle = ""
+) {
+
+    if (rolActual !== "peon") {
+        return;
+    }
+
+    let notificaciones = [];
+
+    try {
+
+        notificaciones =
+            JSON.parse(
+                localStorage.getItem(
+                    "notificacionesOvinex"
+                )
+            ) || [];
+
+    } catch {
+
+        notificaciones = [];
+
+    }
+
+
+    notificaciones.unshift({
+
+        id:
+            Date.now().toString() +
+            Math.random()
+                .toString(36)
+                .substring(2, 7),
+
+        usuario: usuarioActual,
+
+        accion: accion,
+
+        detalle: detalle,
+
+        fecha:
+            new Date()
+                .toLocaleDateString("es-CR"),
+
+        hora:
+            new Date()
+                .toLocaleTimeString("es-CR"),
+
+        leida: false
+
+    });
+
+
+    if (notificaciones.length > 100) {
+
+        notificaciones =
+            notificaciones.slice(0, 100);
+
+    }
+
+
+    localStorage.setItem(
+        "notificacionesOvinex",
+        JSON.stringify(notificaciones)
+    );
+
+}
+
+
+/* =====================================================
+   CARGAR NOTIFICACIONES
+===================================================== */
+
+function cargarNotificaciones() {
+
+    const lista =
+        document.getElementById(
+            "listaNotificaciones"
+        );
+
+    const contador =
+        document.getElementById(
+            "contadorNotificaciones"
+        );
+
+    const contadorMenu =
+        document.getElementById(
+            "contadorMenu"
+        );
+
+    if (!lista) return;
+
+
+    let notificaciones = [];
+
+    try {
+
+        notificaciones =
+            JSON.parse(
+                localStorage.getItem(
+                    "notificacionesOvinex"
+                )
+            ) || [];
+
+    } catch {
+
+        notificaciones = [];
+
+    }
+
+
+    if (rolActual !== "admin") {
+
+        lista.innerHTML = `
+            <div class="sin-notificaciones">
+                <div>🔒</div>
+                <h3>Acceso restringido</h3>
+                <p>
+                    Las notificaciones están
+                    disponibles para el administrador.
+                </p>
+            </div>
+        `;
+
+        if (contador) {
+            contador.style.display = "none";
+        }
+
+        if (contadorMenu) {
+            contadorMenu.style.display = "none";
+        }
+
+        return;
+
+    }
+
+
+    const noLeidas =
+        notificaciones.filter(
+            item => !item.leida
+        ).length;
+
+
+    if (contador) {
+
+        contador.textContent =
+            noLeidas;
+
+        contador.style.display =
+            noLeidas > 0
+                ? "flex"
+                : "none";
+
+    }
+
+
+    if (contadorMenu) {
+
+        contadorMenu.textContent =
+            noLeidas;
+
+        contadorMenu.style.display =
+            noLeidas > 0
+                ? "flex"
+                : "none";
+
+    }
+
+
+    lista.innerHTML = "";
+
+
+    if (!notificaciones.length) {
+
+        lista.innerHTML = `
+            <div class="sin-notificaciones">
+                <div>🔔</div>
+                <h3>No hay notificaciones</h3>
+                <p>
+                    Las actividades realizadas
+                    por los peones aparecerán aquí.
+                </p>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    notificaciones.forEach(
+        notificacion => {
+
+            const elemento =
+                document.createElement("div");
+
+            elemento.className =
+                "notificacion-item " +
+                (
+                    notificacion.leida
+                        ? "leida"
+                        : "no-leida"
+                );
+
+
+            elemento.innerHTML = `
+
+                <div class="notificacion-icono">
+                    👤
+                </div>
+
+                <div class="notificacion-contenido">
+
+                    <strong>
+                        ${escapeHTML(
+                            notificacion.usuario
+                        )}
+                    </strong>
+
+                    <p>
+                        ${escapeHTML(
+                            notificacion.accion
+                        )}
+                    </p>
+
+                    ${
+                        notificacion.detalle
+                            ? `
+                                <small>
+                                    ${escapeHTML(
+                                        notificacion.detalle
+                                    )}
+                                </small>
+                            `
+                            : ""
+                    }
+
+                    <span>
+                        ${escapeHTML(
+                            notificacion.fecha
+                        )}
+                        ·
+                        ${escapeHTML(
+                            notificacion.hora
+                        )}
+                    </span>
+
+                </div>
+
+            `;
+
+
+            lista.appendChild(
+                elemento
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   INFORMACIÓN DEL USUARIO
+===================================================== */
+
+function cargarUsuario() {
+
+    const nombre =
+        document.getElementById(
+            "nombreUsuario"
+        );
+
+    const rol =
+        document.getElementById(
+            "rolUsuario"
+        );
+
+    const avatar =
+        document.getElementById(
+            "avatarUsuario"
+        );
+
+
+    if (nombre) {
+
+        nombre.textContent =
+            usuarioActual;
+
+    }
+
+
+    if (rol) {
+
+        rol.textContent =
+            rolActual === "admin"
+                ? "Administrador"
+                : "Peón";
+
+    }
+
+
+    if (avatar) {
+
+        avatar.textContent =
+            usuarioActual
+                .charAt(0)
+                .toUpperCase();
+
+    }
+
+}
+
+
+/* =====================================================
+   PERMISOS
+===================================================== */
+
+function configurarPermisos() {
+
+    const panelAdmin =
+        document.getElementById(
+            "btnPanelAdmin"
+        );
+
+    if (!panelAdmin) return;
+
+
+    if (rolActual === "admin") {
+
+        panelAdmin.style.display =
+            "flex";
+
+    } else {
+
+        panelAdmin.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   NAVEGACIÓN
+===================================================== */
+
+function mostrarSeccion(id) {
+
+    /* Si intenta entrar al panel admin */
+
+    if (
+        id === "seccionAdmin" &&
+        rolActual !== "admin"
+    ) {
+
+        alert(
+            "Esta sección es exclusiva para el administrador."
+        );
+
+        return;
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".seccion-contenido"
+        )
+        .forEach(
+            seccion => {
+
+                seccion.classList.remove(
+                    "activa"
+                );
+
+            }
+        );
+
+
+    const seccion =
+        document.getElementById(id);
+
+
+    if (seccion) {
+
+        seccion.classList.add(
+            "activa"
+        );
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".item-menu"
+        )
+        .forEach(
+            boton => {
+
+                boton.classList.remove(
+                    "activo"
+                );
+
+            }
+        );
+
+
+    const botonMenu =
+        document.querySelector(
+            `.item-menu[data-seccion="${id}"]`
+        );
+
+
+    if (botonMenu) {
+
+        botonMenu.classList.add(
+            "activo"
+        );
+
+    }
+
+
+    const titulos = {
+
+        seccionGeneral:
+            "Información general",
+
+        seccionAnimales:
+            "Animales",
+
+        seccionRegistro:
+            "Registrar animal",
+
+        seccionReservas:
+            "Reservas",
+
+        seccionAdmin:
+            "Panel de administrador",
+
+        seccionNotificaciones:
+            "Notificaciones"
+
+    };
+
+
+    const titulo =
+        document.getElementById(
+            "tituloHeader"
+        );
+
+
+    if (titulo) {
+
+        titulo.textContent =
+            titulos[id] ||
+            "OVINEX";
+
+    }
+
+
+    if (id === "seccionAdmin") {
+
+        cargarPanelAdministrador();
+
+    }
+
+
+    if (id === "seccionNotificaciones") {
+
+        cargarNotificaciones();
+
+    }
+
+}
+
+
+/* Navegación */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        const boton =
+            event.target.closest(
+                "[data-seccion]"
+            );
+
+        if (!boton) return;
+
+        const id =
+            boton.dataset.seccion;
+
+        mostrarSeccion(id);
+
+    }
+);
+
+
+/* =====================================================
+   ESTADÍSTICAS
+===================================================== */
+
+function actualizarEstadisticas() {
+
+    const total =
+        document.getElementById(
+            "totalAnimales"
+        );
+
+    const prenados =
+        document.getElementById(
+            "animalesPrenados"
+        );
+
+    const reservas =
+        document.getElementById(
+            "totalReservas"
+        );
+
+
+    if (total) {
+
+        total.textContent =
+            animales.length;
+
+    }
+
+
+    if (prenados) {
+
+        prenados.textContent =
+            animales.filter(
+                animal =>
+                    String(
+                        animal.diagnostico || ""
+                    ).trim() !== ""
+            ).length;
+
+    }
+
+
+    let listaReservas = [];
+
+    try {
+
+        listaReservas =
+            JSON.parse(
+                localStorage.getItem(
+                    "reservasOvinas"
+                )
+            ) || [];
+
+    } catch {
+
+        listaReservas = [];
+
+    }
+
+
+    if (reservas) {
+
+        reservas.textContent =
+            listaReservas.length;
+
+    }
+
+}
+
+
+/* =====================================================
+   TARJETAS DE ANIMALES
+===================================================== */
+
+function crearTarjetaAnimal(
+    animal
+) {
+
+    const tarjeta =
+        document.createElement("article");
+
+    tarjeta.className =
+        "tarjeta-animal";
+
+
+    const estado =
+        animal.estado ||
+        "Activo";
+
+
+    const estadoClase =
+        estado
+            .toLowerCase()
+            .replaceAll(" ", "-");
+
+
+    tarjeta.innerHTML = `
+
+        <div class="animal-cabecera">
+
+            <div class="animal-avatar">
+                🐑
+            </div>
+
+            <div>
+
+                <span class="animal-label">
+                    ANIMAL
+                </span>
+
+                <h3>
+                    #${escapeHTML(
+                        animal.numero
+                    )}
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <div class="animal-datos">
+
+            <div>
+                <span>Peso</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.peso
+                    )} kg
+                </strong>
+            </div>
+
+            <div>
+                <span>Estado</span>
+                <strong class="estado-${estadoClase}">
+                    ${escapeHTML(
+                        estado
+                    )}
+                </strong>
+            </div>
+
+            <div>
+                <span>Celo</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.celo || "No"
+                    )}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="animal-acciones">
+
+            <button
+                type="button"
+                class="boton-secundario boton-ver-animal"
+                data-id="${animal.id}"
+            >
+                👁️ Ver
+            </button>
+
+            <button
+                type="button"
+                class="boton-secundario boton-editar-animal"
+                data-id="${animal.id}"
+            >
+                ✏️ Editar
+            </button>
+
+            <button
+                type="button"
+                class="boton-peligro boton-eliminar-animal"
+                data-id="${animal.id}"
+            >
+                🗑️
+            </button>
+
+        </div>
+
+    `;
+
+
+    return tarjeta;
+
+}
+
+
+/* =====================================================
+   MOSTRAR ANIMALES
+===================================================== */
+
+function mostrarAnimales(
+    lista = animales,
+    contenedorId = "contenedorTarjetas"
+) {
+
+    const contenedor =
+        document.getElementById(
+            contenedorId
+        );
+
+    if (!contenedor) return;
+
+
+    contenedor.innerHTML = "";
+
+
+    if (!lista.length) {
+
+        contenedor.innerHTML = `
+
+            <div class="sin-datos">
+
+                <div>🐑</div>
+
+                <h3>
+                    No hay animales registrados
+                </h3>
+
+                <p>
+                    Registre un animal para
+                    comenzar a utilizar el sistema.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    lista.forEach(
+        animal => {
+
+            contenedor.appendChild(
+                crearTarjetaAnimal(animal)
+            );
+
+        }
+    );
+
+
+    const contador =
+        document.getElementById(
+            "contadorTarjetas"
+        );
+
+
+    if (contador) {
+
+        contador.textContent =
+            lista.length;
+
+    }
+
+}
+
+
+/* =====================================================
+   INFORMACIÓN GENERAL
+===================================================== */
+
+function mostrarAnimalesGenerales() {
+
+    const contenedor =
+        document.getElementById(
+            "tarjetasGenerales"
+        );
+
+    if (!contenedor) return;
+
+
+    contenedor.innerHTML = "";
+
+
+    if (!animales.length) {
+
+        contenedor.innerHTML = `
+
+            <div class="sin-datos">
+
+                <div>🐑</div>
+
+                <h3>
+                    No hay animales registrados
+                </h3>
+
+                <p>
+                    Utilice "Registrar animal"
+                    para agregar el primero.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    animales.forEach(
+        animal => {
+
+            contenedor.appendChild(
+                crearTarjetaAnimal(animal)
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FILTROS
+===================================================== */
+
+function aplicarFiltros() {
+
+    const busqueda =
+        (
+            document.getElementById(
+                "buscarAnimal"
+            )?.value || ""
+        )
+        .toLowerCase()
+        .trim();
+
+
+    const estado =
+        document.getElementById(
+            "filtroEstado"
+        )?.value || "";
+
+
+    const celo =
+        document.getElementById(
+            "filtroCelo"
+        )?.value || "";
+
+
+    const filtrados =
+        animales.filter(
+            animal => {
+
+                const coincideNumero =
+                    String(
+                        animal.numero || ""
+                    )
+                    .toLowerCase()
+                    .includes(
+                        busqueda
+                    );
+
+
+                const coincideEstado =
+                    !estado ||
+                    animal.estado === estado;
+
+
+                const coincideCelo =
+                    !celo ||
+                    animal.celo === celo;
+
+
+                return (
+                    coincideNumero &&
+                    coincideEstado &&
+                    coincideCelo
+                );
+
+            }
+        );
+
+
+    mostrarAnimales(
+        filtrados
+    );
+
+}
+
+
+/* =====================================================
+   FORMULARIO ANIMAL
+===================================================== */
+
+const formAnimal =
+    document.getElementById(
+        "formAnimal"
+    );
+
+
+formAnimal.addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+
+        const animal = {
+
+            id:
+                Date.now()
+                .toString(),
+
+            numero:
+                document.getElementById(
+                    "numeroAnimal"
+                ).value.trim(),
+
+            peso:
+                document.getElementById(
+                    "peso"
+                ).value,
+
+            fecha:
+                document.getElementById(
+                    "fecha"
+                ).value,
+
+            hora:
+                document.getElementById(
+                    "hora"
+                ).value,
+
+            nacimiento:
+                document.getElementById(
+                    "nacimiento"
+                ).value,
+
+            vacunas:
+                document.getElementById(
+                    "vacunas"
+                ).value.trim(),
+
+            celo:
+                document.getElementById(
+                    "celo"
+                ).value,
+
+            fechaCelo:
+                document.getElementById(
+                    "fechaCelo"
+                ).value,
+
+            macho:
+                document.getElementById(
+                    "macho"
+                ).value.trim(),
+
+            diagnostico:
+                document.getElementById(
+                    "diagnostico"
+                ).value,
+
+            padre:
+                document.getElementById(
+                    "padre"
+                ).value.trim(),
+
+            madre:
+                document.getElementById(
+                    "madre"
+                ).value.trim(),
+
+            dieta:
+                document.getElementById(
+                    "dieta"
+                ).value.trim(),
+
+            estado:
+                document.getElementById(
+                    "estado"
+                ).value
+
+        };
+
+
+        const existe =
+            animales.some(
+                item =>
+                    item.numero ===
+                    animal.numero
+            );
+
+
+        if (existe) {
+
+            alert(
+                "Ya existe un animal con ese número."
+            );
+
+            return;
+
+        }
+
+
+        animales.push(
+            animal
+        );
+
+
+        guardarAnimales();
+
+
+        registrarActividad(
+            "Registró un nuevo animal",
+            "Animal #" +
+            animal.numero
+        );
+
+
+        formAnimal.reset();
+
+
+        actualizarTodo();
+
+
+        alert(
+            "Animal registrado correctamente."
+        );
+
+
+        mostrarSeccion(
+            "seccionGeneral"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   EDITAR ANIMAL
+===================================================== */
+
+function editarAnimal(id) {
+
+    const animal =
+        animales.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+
+    if (!animal) return;
+
+
+    document.getElementById(
+        "numeroAnimal"
+    ).value =
+        animal.numero || "";
+
+
+    document.getElementById(
+        "peso"
+    ).value =
+        animal.peso || "";
+
+
+    document.getElementById(
+        "fecha"
+    ).value =
+        animal.fecha || "";
+
+
+    document.getElementById(
+        "hora"
+    ).value =
+        animal.hora || "";
+
+
+    document.getElementById(
+        "nacimiento"
+    ).value =
+        animal.nacimiento || "";
+
+
+    document.getElementById(
+        "vacunas"
+    ).value =
+        animal.vacunas || "";
+
+
+    document.getElementById(
+        "celo"
+    ).value =
+        animal.celo || "No";
+
+
+    document.getElementById(
+        "fechaCelo"
+    ).value =
+        animal.fechaCelo || "";
+
+
+    document.getElementById(
+        "macho"
+    ).value =
+        animal.macho || "";
+
+
+    document.getElementById(
+        "diagnostico"
+    ).value =
+        animal.diagnostico || "";
+
+
+    document.getElementById(
+        "padre"
+    ).value =
+        animal.padre || "";
+
+
+    document.getElementById(
+        "madre"
+    ).value =
+        animal.madre || "";
+
+
+    document.getElementById(
+        "dieta"
+    ).value =
+        animal.dieta || "";
+
+
+    document.getElementById(
+        "estado"
+    ).value =
+        animal.estado || "Activo";
+
+
+    const form =
+        document.getElementById(
+            "formAnimal"
+        );
+
+
+    form.dataset.editando =
+        animal.id;
+
+
+    mostrarSeccion(
+        "seccionRegistro"
+    );
+
+}
+
+
+/* =====================================================
+   ACTUALIZAR ANIMAL
+===================================================== */
+
+formAnimal.addEventListener(
+    "submit",
+    function() {
+
+        const editando =
+            formAnimal.dataset.editando;
+
+
+        if (!editando) return;
+
+
+        const indice =
+            animales.findIndex(
+                item =>
+                    String(item.id) ===
+                    String(editando)
+            );
+
+
+        if (indice === -1) return;
+
+
+        const numero =
+            document.getElementById(
+                "numeroAnimal"
+            ).value.trim();
+
+
+        const duplicado =
+            animales.some(
+                item =>
+                    item.numero === numero &&
+                    String(item.id) !==
+                    String(editando)
+            );
+
+
+        if (duplicado) {
+
+            alert(
+                "Ya existe otro animal con ese número."
+            );
+
+            return;
+
+        }
+
+
+        animales[indice] = {
+
+            ...animales[indice],
+
+            numero: numero,
+
+            peso:
+                document.getElementById(
+                    "peso"
+                ).value,
+
+            fecha:
+                document.getElementById(
+                    "fecha"
+                ).value,
+
+            hora:
+                document.getElementById(
+                    "hora"
+                ).value,
+
+            nacimiento:
+                document.getElementById(
+                    "nacimiento"
+                ).value,
+
+            vacunas:
+                document.getElementById(
+                    "vacunas"
+                ).value,
+
+            celo:
+                document.getElementById(
+                    "celo"
+                ).value,
+
+            fechaCelo:
+                document.getElementById(
+                    "fechaCelo"
+                ).value,
+
+            macho:
+                document.getElementById(
+                    "macho"
+                ).value,
+
+            diagnostico:
+                document.getElementById(
+                    "diagnostico"
+                ).value,
+
+            padre:
+                document.getElementById(
+                    "padre"
+                ).value,
+
+            madre:
+                document.getElementById(
+                    "madre"
+                ).value,
+
+            dieta:
+                document.getElementById(
+                    "dieta"
+                ).value,
+
+            estado:
+                document.getElementById(
+                    "estado"
+                ).value
+
+        };
+
+
+        guardarAnimales();
+
+
+        registrarActividad(
+            "Editó un animal",
+            "Animal #" +
+            numero
+        );
+
+
+        delete formAnimal.dataset.editando;
+
+
+        formAnimal.reset();
+
+
+        actualizarTodo();
+
+    }
+);
+
+
+/* =====================================================
+   ELIMINAR ANIMAL
+===================================================== */
+
+function eliminarAnimal(id) {
+
+    const animal =
+        animales.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+
+    if (!animal) return;
+
+
+    if (
+        !confirm(
+            "¿Desea eliminar el animal #" +
+            animal.numero +
+            "?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    animales =
+        animales.filter(
+            item =>
+                String(item.id) !==
+                String(id)
+        );
+
+
+    guardarAnimales();
+
+
+    registrarActividad(
+        "Eliminó un animal",
+        "Animal #" +
+        animal.numero
+    );
+
+
+    actualizarTodo();
+
+}
+
+
+/* =====================================================
+   VER ANIMAL
+===================================================== */
+
+function verAnimal(id) {
+
+    const animal =
+        animales.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+
+    if (!animal) return;
+
+
+    const detalle =
+        document.getElementById(
+            "detalleAnimal"
+        );
+
+
+    detalle.innerHTML = `
+
+        <span class="etiqueta-seccion">
+            INFORMACIÓN DEL ANIMAL
+        </span>
+
+        <h2>
+            Animal #${escapeHTML(
+                animal.numero
+            )}
+        </h2>
+
+        <div class="detalle-grid">
+
+            <div>
+                <span>Peso</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.peso
+                    )} kg
+                </strong>
+            </div>
+
+            <div>
+                <span>Fecha</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.fecha
+                    )}
+                </strong>
+            </div>
+
+            <div>
+                <span>Hora</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.hora
+                    )}
+                </strong>
+            </div>
+
+            <div>
+                <span>Nacimiento</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.nacimiento ||
+                        "No registrado"
+                    )}
+                </strong>
+            </div>
+
+            <div>
+                <span>Vacunas</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.vacunas ||
+                        "No registradas"
+                    )}
+                </strong>
+            </div>
+
+            <div>
+                <span>Celo</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.celo ||
+                        "No"
+                    )}
+                </strong>
+            </div>
+
+            <div>
+                <span>Fecha de celo</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.fechaCelo ||
+                        "No registrada"
+                    )}
+                </strong>
+            </div>
+
+            <div>
+                <span>Macho</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.macho ||
+                        "No registrado"
+                    )}
+                </strong>
+            </div>
+
+            <div>
+                <span>Diagnóstico</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.diagnostico ||
+                        "No registrado"
+                    )}
+                </strong>
+            </div>
+
+            <div>
+                <span>Padre</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.padre ||
+                        "No registrado"
+                    )}
+                </strong>
+            </div>
+
+            <div>
+                <span>Madre</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.madre ||
+                        "No registrada"
+                    )}
+                </strong>
+            </div>
+
+            <div>
+                <span>Estado</span>
+                <strong>
+                    ${escapeHTML(
+                        animal.estado
+                    )}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="detalle-dieta">
+
+            <span>Dieta</span>
+
+            <p>
+                ${escapeHTML(
+                    animal.dieta ||
+                    "No registrada"
+                )}
+            </p>
+
+        </div>
+
+    `;
+
+
+    document
+        .getElementById(
+            "modalAnimal"
+        )
+        .classList.add("activo");
+
+}
+
+
+/* =====================================================
+   EVENTOS TARJETAS
+===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        const ver =
+            event.target.closest(
+                ".boton-ver-animal"
+            );
+
+
+        if (ver) {
+
+            verAnimal(
+                ver.dataset.id
+            );
+
+        }
+
+
+        const editar =
+            event.target.closest(
+                ".boton-editar-animal"
+            );
+
+
+        if (editar) {
+
+            editarAnimal(
+                editar.dataset.id
+            );
+
+        }
+
+
+        const eliminar =
+            event.target.closest(
+                ".boton-eliminar-animal"
+            );
+
+
+        if (eliminar) {
+
+            eliminarAnimal(
+                eliminar.dataset.id
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   CERRAR MODAL ANIMAL
+===================================================== */
+
+document
+    .getElementById(
+        "cerrarModalAnimal"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            document
+                .getElementById(
+                    "modalAnimal"
+                )
+                .classList.remove(
+                    "activo"
+                );
+
+        }
+    );
+
+
+/* =====================================================
+   FILTROS
+===================================================== */
+
+document
+    .getElementById(
+        "buscarAnimal"
+    )
+    .addEventListener(
+        "input",
+        aplicarFiltros
+    );
+
+
+document
+    .getElementById(
+        "filtroEstado"
+    )
+    .addEventListener(
+        "change",
+        aplicarFiltros
+    );
+
+
+document
+    .getElementById(
+        "filtroCelo"
+    )
+    .addEventListener(
+        "change",
+        aplicarFiltros
+    );
+
+
+/* =====================================================
+   PANEL ADMINISTRADOR
+===================================================== */
+
+function cargarPanelAdministrador() {
+
+    if (rolActual !== "admin") {
+        return;
+    }
+
+
+    let usuarios = [];
+
+    try {
+
+        usuarios =
+            JSON.parse(
+                localStorage.getItem(
+                    "usuariosOvinex"
+                )
+            ) || [];
+
+    } catch {
+
+        usuarios = [];
+
+    }
+
+
+    const peones =
+        usuarios.filter(
+            usuario =>
+                usuario.rol === "peon"
+        );
+
+
+    const tabla =
+        document.getElementById(
+            "tablaUsuariosPeones"
+        );
+
+
+    if (!tabla) return;
+
+
+    tabla.innerHTML = "";
+
+
+    let notificaciones = [];
+
+    try {
+
+        notificaciones =
+            JSON.parse(
+                localStorage.getItem(
+                    "notificacionesOvinex"
+                )
+            ) || [];
+
+    } catch {
+
+        notificaciones = [];
+
+    }
+
+
+    let totalActividades = 0;
+
+
+    peones.forEach(
+        peon => {
+
+            const actividades =
+                notificaciones.filter(
+                    item =>
+                        item.usuario ===
+                        peon.usuario
+                );
+
+
+            totalActividades +=
+                actividades.length;
+
+
+            const activo =
+                peon.activo !== false;
+
+
+            const fila =
+                document.createElement(
+                    "tr"
+                );
+
+
+            fila.innerHTML = `
+
+                <td>
+
+                    <div class="usuario-tabla">
+
+                        <div class="avatar-tabla">
+
+                            ${escapeHTML(
+                                peon.usuario
+                                    .charAt(0)
+                                    .toUpperCase()
+                            )}
+
+                        </div>
+
+                        <strong>
+                            ${escapeHTML(
+                                peon.usuario
+                            )}
+                        </strong>
+
+                    </div>
+
+                </td>
+
+
+                <td>
+
+                    <span class="badge-peon">
+                        Peón
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <span class="${
+                        activo
+                            ? "estado-activo"
+                            : "estado-inactivo"
+                    }">
+
+                        ${
+                            activo
+                                ? "Activo"
+                                : "Inactivo"
+                        }
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <strong>
+                        ${actividades.length}
+                    </strong>
+
+                </td>
+
+
+                <td>
+
+                    <div class="acciones-usuario">
+
+                        <button
+                            type="button"
+                            class="boton-tabla boton-ver-usuario"
+                            data-usuario="${escapeHTML(
+                                peon.usuario
+                            )}"
+                        >
+                            👁️ Ver
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="boton-tabla boton-cambiar-estado"
+                            data-usuario="${escapeHTML(
+                                peon.usuario
+                            )}"
+                        >
+
+                            ${
+                                activo
+                                    ? "⛔ Desactivar"
+                                    : "🟢 Activar"
+                            }
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="boton-tabla boton-eliminar-usuario"
+                            data-usuario="${escapeHTML(
+                                peon.usuario
+                            )}"
+                        >
+                            🗑️ Eliminar
+                        </button>
+
+                    </div>
+
+                </td>
+
+            `;
+
+
+            tabla.appendChild(
+                fila
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "totalPeones"
+    ).textContent =
+        peones.length;
+
+
+    document.getElementById(
+        "peonesActivos"
+    ).textContent =
+        peones.filter(
+            item =>
+                item.activo !== false
+        ).length;
+
+
+    document.getElementById(
+        "actividadesPeones"
+    ).textContent =
+        totalActividades;
+
+
+    if (!peones.length) {
+
+        tabla.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="5"
+                    class="sin-datos-tabla"
+                >
+
+                    <div>👥</div>
+
+                    <strong>
+                        No hay usuarios peón
+                    </strong>
+
+                    <p>
+                        Los usuarios creados
+                        aparecerán aquí.
+                    </p>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   VER INFORMACIÓN PEÓN
+===================================================== */
+
+function verInformacionPeon(
+    nombreUsuario
+) {
+
+    let usuarios = [];
+
+    try {
+
+        usuarios =
+            JSON.parse(
+                localStorage.getItem(
+                    "usuariosOvinex"
+                )
+            ) || [];
+
+    } catch {
+
+        usuarios = [];
+
+    }
+
+
+    const peon =
+        usuarios.find(
+            item =>
+                item.usuario ===
+                nombreUsuario
+        );
+
+
+    if (!peon) {
+
+        alert(
+            "No se encontró el usuario."
+        );
+
+        return;
+
+    }
+
+
+    let notificaciones = [];
+
+    try {
+
+        notificaciones =
+            JSON.parse(
+                localStorage.getItem(
+                    "notificacionesOvinex"
+                )
+            ) || [];
+
+    } catch {
+
+        notificaciones = [];
+
+    }
+
+
+    const actividades =
+        notificaciones.filter(
+            item =>
+                item.usuario ===
+                nombreUsuario
+        );
+
+
+    const ultimaActividad =
+        actividades.length
+            ? actividades[0]
+            : null;
+
+
+    const estado =
+        peon.activo !== false
+            ? "Activo"
+            : "Inactivo";
+
+
+    const detalle =
+        document.getElementById(
+            "detalleAnimal"
+        );
+
+
+    detalle.innerHTML = `
+
+        <span class="etiqueta-seccion">
+            INFORMACIÓN DEL USUARIO
+        </span>
+
+        <h2>
+            👤 ${escapeHTML(
+                peon.usuario
+            )}
+        </h2>
+
+
+        <div class="detalle-grid">
+
+            <div>
+                <span>Usuario</span>
+                <strong>
+                    ${escapeHTML(
+                        peon.usuario
+                    )}
+                </strong>
+            </div>
+
+
+            <div>
+                <span>Rango</span>
+                <strong>
+                    Peón
+                </strong>
+            </div>
+
+
+            <div>
+                <span>Estado</span>
+                <strong>
+                    ${estado}
+                </strong>
+            </div>
+
+
+            <div>
+                <span>Fecha de creación</span>
+                <strong>
+                    ${escapeHTML(
+                        peon.fechaCreacion ||
+                        "No registrada"
+                    )}
+                </strong>
+            </div>
+
+
+            <div>
+                <span>Actividades</span>
+                <strong>
+                    ${actividades.length}
+                </strong>
+            </div>
+
+
+            <div>
+                <span>Última actividad</span>
+                <strong>
+                    ${
+                        ultimaActividad
+                            ? escapeHTML(
+                                ultimaActividad.accion
+                            )
+                            : "Sin actividades"
+                    }
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="detalle-dieta">
+
+            <span>
+                Historial de actividades
+            </span>
+
+            ${
+                actividades.length
+                    ? actividades
+                        .slice(0, 10)
+                        .map(
+                            item => `
+                                <p>
+                                    <strong>
+                                        ${escapeHTML(
+                                            item.fecha
+                                        )}
+                                    </strong>
+                                    ·
+                                    ${escapeHTML(
+                                        item.hora
+                                    )}
+                                    —
+                                    ${escapeHTML(
+                                        item.accion
+                                    )}
+                                </p>
+                            `
+                        )
+                        .join("")
+                    : `
+                        <p>
+                            Este usuario todavía
+                            no registra actividades.
+                        </p>
+                    `
+            }
+
+        </div>
+
+    `;
+
+
+    document
+        .getElementById(
+            "modalAnimal"
+        )
+        .classList.add(
+            "activo"
+        );
+
+}
+
+
+/* =====================================================
+   CAMBIAR ESTADO PEÓN
+===================================================== */
+
+function cambiarEstadoPeon(
+    nombreUsuario
+) {
+
+    if (rolActual !== "admin") {
+
+        alert(
+            "No tienes permisos."
+        );
+
+        return;
+
+    }
+
+
+    let usuarios = [];
+
+    try {
+
+        usuarios =
+            JSON.parse(
+                localStorage.getItem(
+                    "usuariosOvinex"
+                )
+            ) || [];
+
+    } catch {
+
+        usuarios = [];
+
+    }
+
+
+    const indice =
+        usuarios.findIndex(
+            item =>
+                item.usuario ===
+                nombreUsuario
+        );
+
+
+    if (indice === -1) {
+
+        alert(
+            "No se encontró el usuario."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        usuarios[indice].rol ===
+        "admin"
+    ) {
+
+        alert(
+            "No puedes modificar al administrador."
+        );
+
+        return;
+
+    }
+
+
+    const activo =
+        usuarios[indice].activo !== false;
+
+
+    const nuevoEstado =
+        !activo;
+
+
+    if (
+        !confirm(
+            nuevoEstado
+                ? "¿Desea activar este usuario?"
+                : "¿Desea desactivar este usuario?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    usuarios[indice].activo =
+        nuevoEstado;
+
+
+    localStorage.setItem(
+        "usuariosOvinex",
+        JSON.stringify(usuarios)
+    );
+
+
+    cargarPanelAdministrador();
+
+}
+
+
+/* =====================================================
+   ELIMINAR PEÓN
+===================================================== */
+
+function eliminarPeon(
+    nombreUsuario
+) {
+
+    if (rolActual !== "admin") {
+
+        alert(
+            "No tienes permisos."
+        );
+
+        return;
+
+    }
+
+
+    let usuarios = [];
+
+    try {
+
+        usuarios =
+            JSON.parse(
+                localStorage.getItem(
+                    "usuariosOvinex"
+                )
+            ) || [];
+
+    } catch {
+
+        usuarios = [];
+
+    }
+
+
+    const usuario =
+        usuarios.find(
+            item =>
+                item.usuario ===
+                nombreUsuario
+        );
+
+
+    if (!usuario) {
+
+        alert(
+            "No se encontró el usuario."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        usuario.rol ===
+        "admin"
+    ) {
+
+        alert(
+            "No puedes eliminar al administrador."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !confirm(
+            `¿Está seguro de eliminar al usuario "${nombreUsuario}"?`
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    usuarios =
+        usuarios.filter(
+            item =>
+                item.usuario !==
+                nombreUsuario
+        );
+
+
+    localStorage.setItem(
+        "usuariosOvinex",
+        JSON.stringify(usuarios)
+    );
+
+
+    cargarPanelAdministrador();
+
+
+    alert(
+        "Usuario eliminado correctamente."
+    );
+
+}
+
+
+/* =====================================================
+   EVENTOS PANEL ADMIN
+===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        const ver =
+            event.target.closest(
+                ".boton-ver-usuario"
+            );
+
+
+        if (ver) {
+
+            verInformacionPeon(
+                ver.dataset.usuario
+            );
+
+        }
+
+
+        const cambiar =
+            event.target.closest(
+                ".boton-cambiar-estado"
+            );
+
+
+        if (cambiar) {
+
+            cambiarEstadoPeon(
+                cambiar.dataset.usuario
+            );
+
+        }
+
+
+        const eliminar =
+            event.target.closest(
+                ".boton-eliminar-usuario"
+            );
+
+
+        if (eliminar) {
+
+            eliminarPeon(
+                eliminar.dataset.usuario
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ACTUALIZAR USUARIOS
+===================================================== */
+
+document
+    .getElementById(
+        "btnActualizarUsuarios"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            cargarPanelAdministrador();
+
+        }
+    );
+
+
+/* =====================================================
+   MARCAR NOTIFICACIONES
+===================================================== */
+
+document
+    .getElementById(
+        "btnMarcarNotificaciones"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            if (rolActual !== "admin") {
+                return;
+            }
+
+
+            let notificaciones = [];
+
+            try {
+
+                notificaciones =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "notificacionesOvinex"
+                        )
+                    ) || [];
+
+            } catch {
+
+                notificaciones = [];
+
+            }
+
+
+            notificaciones =
+                notificaciones.map(
+                    item => ({
+                        ...item,
+                        leida: true
+                    })
+                );
+
+
+            localStorage.setItem(
+                "notificacionesOvinex",
+                JSON.stringify(
+                    notificaciones
+                )
+            );
+
+
+            cargarNotificaciones();
+
+        }
+    );
+
+
+/* =====================================================
+   BOTÓN DE NOTIFICACIONES DEL HEADER
+===================================================== */
+
+document
+    .getElementById(
+        "btnNotificaciones"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            mostrarSeccion(
+                "seccionNotificaciones"
+            );
+
+        }
+    );
+
+
+/* =====================================================
+   CERRAR SESIÓN
+===================================================== */
+
+document
+    .getElementById(
+        "btnCerrarSesion"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            if (
+                !confirm(
+                    "¿Desea cerrar sesión?"
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            sessionStorage.removeItem(
+                "sesionActiva"
+            );
+
+            sessionStorage.removeItem(
+                "usuarioActual"
+            );
+
+            sessionStorage.removeItem(
+                "rolActual"
+            );
+
+
+            window.location.replace(
+                "login.html"
+            );
+
+        }
+    );
+
+
+/* =====================================================
+   CERRAR MODAL
+===================================================== */
+
+document
+    .getElementById(
+        "modalAnimal"
+    )
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target ===
+                this
+            ) {
+
+                this.classList.remove(
+                    "activo"
+                );
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   ACTUALIZAR TODO
+===================================================== */
+
+function actualizarTodo() {
+
+    actualizarEstadisticas();
+
+    mostrarAnimalesGenerales();
+
+    aplicarFiltros();
+
+    cargarNotificaciones();
+
+    if (rolActual === "admin") {
+
+        cargarPanelAdministrador();
+
+    }
+
+}
+
+
+/* =====================================================
+   INICIO
+===================================================== */
+
+cargarUsuario();
+
+configurarPermisos();
+
+actualizarTodo();
+
+mostrarSeccion(
+    "seccionGeneral"
+);
+
+
+/* Fecha automática */
+
+const fechaInput =
+    document.getElementById(
+        "fecha"
+    );
+
+if (fechaInput) {
+
+    fechaInput.value =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+}
+
+
+/* =====================================================
+   CORRECCIÓN DE FORMULARIO AL EDITAR
+===================================================== */
+
+formAnimal.addEventListener(
+    "reset",
+    function() {
+
+        delete formAnimal.dataset.editando;
+
+    }
+);
+
+</script>
+
+</body>
+</html>
